@@ -7,7 +7,8 @@ target_mem=$(echo "$mem * 0.9" | bc) # if you run to error, install bc
 if [ -z "$target_mem" ]; then
     target_mem=4
 fi
-docker run -dt \
+docker run -v /app:/app \
+           -dt \
            --name=sleepy_mew \
            --memory="$target_mem"g \
            ptcd:latest \

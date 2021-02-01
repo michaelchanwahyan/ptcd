@@ -13,6 +13,8 @@ ENV SHELL=/bin/bash \
     AIRFLOW_GPL_UNIDECODE=yes \
     PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/local/lib:/usr/lib:/usr/sbin:/usr/bin:/sbin:/bin
 
+RUN mkdir /app
+
 RUN apt-get -y update
 
 # INSTALL BOOST CMAKE BUILD-ESSENTIAL
@@ -25,7 +27,7 @@ RUN apt-get -y install \
         libboost-regex-dev
 RUN apt-get -y install \
         build-essential \
-        wget git screen ca-certificates \
+        vim wget git screen ca-certificates \
         musl-dev net-tools curl htop apt-utils
 RUN cd / ; wget https://cmake.org/files/v3.19/cmake-3.19.4-Linux-x86_64.sh ;\
     yes | sh cmake-3.19.4-Linux-x86_64.sh ;\
