@@ -11,7 +11,7 @@ ENV SHELL=/bin/bash \
     PYTHONIOENCODING=UTF-8 \
     AIRFLOW_HOME=/opt/airflow \
     AIRFLOW_GPL_UNIDECODE=yes \
-    PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/local/lib:/usr/lib:/usr/sbin:/usr/bin:/sbin:/bin
+    PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/local/lib:/usr/lib:/usr/sbin:/usr/bin:/sbin:/bin:/LAStools/LASzip/build/src
 
 RUN mkdir /app
 
@@ -59,7 +59,8 @@ RUN cd /LAStools/LASzip ;\
     mkdir build ;\
     cd build ;\
     cmake -DCMAKE_BUILD_TYPE=Release .. ;\
-    make
+    make ; make install
+
 RUN cd / ; wget https://github.com/potree/PotreeConverter/archive/1.6.tar.gz
 RUN cd / ; tar -zxvf 1.6.tar.gz
 RUN cd /PotreeConverter-1.6 ;\
@@ -68,8 +69,10 @@ RUN cd /PotreeConverter-1.6 ;\
     cmake -DCMAKE_BUILD_TYPE=Release \
           -DLASZIP_INCLUDE_DIRS=/LAStools/LASzip/dll \
           -DLASZIP_LIBRARY=/LAStools/LASzip/build/src/liblaszip.so .. ;\
-    make ;\
-    make install
+    make ; make install
+
+RUN echo /usr/local/lib >> /etc/ld.so.conf ;\
+    ldconfig
 
 COPY [ ".bashrc" , ".vimrc"               , "/root/"                 ]
 
